@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perguntas e Respostas</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1, h2, h3 {
+      text-align: center;
+    }
+    h1 {
+      font-size: 0.9rem;
+      letter-spacing: 0.3rem;
+      color: #ccc;
+    }
+    h2 {
+      font-size: 2rem;
+      margin: 0.5rem 0;
+      color: #fff;
+    }
+    h3 {
+      font-size: 0.8rem;
+      color: #888;
+      margin-bottom: 3rem;
+    }
+    form {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    label {
+      display: block;
+      margin-top: 1.5rem;
+      font-weight: bold;
+      color: #ddd;
+    }
+    input[type="text"], input[type="number"], input[type="date"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      background: #111;
+      color: #fff;
+    }
+    .question {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+    .question p {
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+    .question label {
+      font-weight: normal;
+      display: block;
+      margin: 0.2rem 0;
+    }
+    .disclaimer {
+      margin-top: 2rem;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    .btn-submit {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      background: silver;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      color: black;
+    }
+    .btn-submit:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+    .result {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      color: #0f0;
+    }
+  </style>
+</head>
+<body>
+  <h1>PERGUNTAS E RESPOSTAS</h1>
+  <h2>HISTÓRIA ECLESIÁSTICA II</h2>
+  <h3>Pastor Caio Otranto</h3>
+
+  <form id="quizForm">
+    <label for="nome">Nome</label>
+    <input type="text" id="nome" name="nome" required />
+
+    <label for="idade">Idade</label>
+    <input type="number" id="idade" name="idade" required />
+
+    <label for="data">Data</label>
+    <input type="date" id="data" name="data" required />
+
+    <p style="margin-top: 2rem; font-size: 1.1rem;">Responda as perguntas abaixo com responsabilidade e envie no final para saber quantas você acertou.</p>
+
+    <div id="perguntas"></div>
+
+    <div class="disclaimer">
+      <input type="checkbox" id="confirmacao" required />
+      Estou ciente que depois que enviar as perguntas, não poderei mais responder novamente esse formulário.
+    </div>
+
+    <button type="submit" class="btn-submit" id="enviarBtn">Enviar Respostas</button>
+
+    <div class="result" id="resultado"></div>
+  </form>
+
+  <script>
+    const perguntas = [
+      {
+        pergunta: "Quem foi o iniciador da Reforma Protestante?",
+        opcoes: ["João Calvino", "Martinho Lutero", "Thomas Cranmer", "Menno Simons"],
+        correta: 1
+      },
+      {
+        pergunta: "Qual era a profissão inicial de Lutero?",
+        opcoes: ["Teólogo", "Padre", "Estudante de Direito", "Professor de Grego"],
+        correta: 2
+      },
+      {
+        pergunta: "Qual foi o estopim da Reforma?",
+        opcoes: ["A Dieta de Worms", "A tradução da Bíblia", "A venda de indulgências", "A Guerra dos Camponeses"],
+        correta: 2
+      },
+      {
+        pergunta: "O que significa 'Sola Scriptura'?",
+        opcoes: ["Somente pela fé", "Somente as Escrituras têm autoridade", "Somente Cristo salva", "Somente a graça"],
+        correta: 1
+      },
+      {
+        pergunta: "Onde Lutero traduziu o Novo Testamento?",
+        opcoes: ["Erfurt", "Castelo de Wartburg", "Genebra", "Zurique"],
+        correta: 1
+      },
+      {
+        pergunta: "Quem foi o reformador suíço que morreu em conflito entre cantões?",
+        opcoes: ["Calvino", "Zwinglio", "Armínio", "Beza"],
+        correta: 1
+      },
+      {
+        pergunta: "O que Zwinglio rejeitava?",
+        opcoes: ["Pregação", "Escolas", "Celibato clerical", "Catecismo"],
+        correta: 2
+      },
+      {
+        pergunta: "Quem organizou os menonitas?",
+        opcoes: ["João Knox", "Thomas Müntzer", "Menno Simons", "Jacó Armínio"],
+        correta: 2
+      },
+      {
+        pergunta: "O que os anabatistas rejeitavam?",
+        opcoes: ["A Ceia", "Batismo infantil", "Culto público", "Escritos de Paulo"],
+        correta: 1
+      },
+      {
+        pergunta: "Quem escreveu 'As Instituições da Religião Cristã'?",
+        opcoes: ["Martinho Lutero", "João Calvino", "Jacó Armínio", "Zwinglio"],
+        correta: 1
+      },
+      {
+        pergunta: "Qual cidade foi modelo da Reforma calvinista?",
+        opcoes: ["Paris", "Wittenberg", "Genebra", "Zurique"],
+        correta: 2
+      },
+      {
+        pergunta: "Qual era a visão de Calvino sobre a Ceia?",
+        opcoes: ["Simbolismo", "Transubstanciação", "Real e espiritual", "Ausência de Cristo"],
+        correta: 2
+      },
+      {
+        pergunta: "Quem traduziu a Bíblia para o inglês na Reforma inglesa?",
+        opcoes: ["João Knox", "Thomas Cranmer", "John Wesley", "William Tyndale"],
+        correta: 1
+      },
+      {
+        pergunta: "Quem fundou a Igreja da Escócia?",
+        opcoes: ["Thomas Cranmer", "Zwinglio", "João Knox", "Calvino"],
+        correta: 2
+      },
+      {
+        pergunta: "Armínio foi aluno de:",
+        opcoes: ["Calvino", "Lutero", "Zwinglio", "Teodoro Beza"],
+        correta: 3
+      },
+      {
+        pergunta: "Qual dessas ideias Armínio defendia?",
+        opcoes: ["Predestinação absoluta", "Livre-arbítrio e graça resistível", "Igreja estatal", "Sacramentos como graça"],
+        correta: 1
+      },
+      {
+        pergunta: "Quem foi o principal sistematizador da teologia protestante?",
+        opcoes: ["Lutero", "Melanchthon", "Calvino", "Cranmer"],
+        correta: 2
+      },
+      {
+        pergunta: "Quem liderou a Reforma em Zurique?",
+        opcoes: ["Lutero", "Zwinglio", "Beza", "Armínio"],
+        correta: 1
+      },
+      {
+        pergunta: "Qual desses defendia a consubstanciação na Ceia?",
+        opcoes: ["Lutero", "Calvino", "Zwinglio", "Armínio"],
+        correta: 0
+      },
+      {
+        pergunta: "Qual foi o principal comunicador das ideias de Lutero?",
+        opcoes: ["Calvino", "Beza", "Melanchthon", "Knox"],
+        correta: 2
+      }
+    ];
+
+    const perguntasDiv = document.getElementById("perguntas");
+
+    perguntas.forEach((q, index) => {
+      const container = document.createElement("div");
+      container.classList.add("question");
+      const p = document.createElement("p");
+      p.textContent = `${index + 1}. ${q.pergunta}`;
+      container.appendChild(p);
+
+      q.opcoes.forEach((opcao, i) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = `q${index}`;
+        input.value = i;
+        label.appendChild(input);
+        label.append(` ${opcao}`);
+        container.appendChild(label);
+      });
+
+      perguntasDiv.appendChild(container);
+    });
+
+    const form = document.getElementById("quizForm");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      let acertos = 0;
+      for (let i = 0; i < perguntas.length; i++) {
+        const radios = document.getElementsByName(`q${i}`);
+        let selecionado = null;
+        for (const radio of radios) {
+          if (radio.checked) {
+            selecionado = radio.value;
+            break;
+          }
+        }
+        if (selecionado === null) {
+          alert(`Por favor, responda a pergunta ${i + 1}`);
+          return;
+        }
+        if (parseInt(selecionado) === perguntas[i].correta) {
+          acertos++;
+        }
+      }
+
+      const resultado = document.getElementById("resultado");
+      resultado.innerHTML = `Você acertou ${acertos} de ${perguntas.length} perguntas.<br>Respostas enviadas com sucesso.`;
+
+      Array.from(form.elements).forEach(el => el.disabled = true);
+    });
+  </script>
+</body>
+</html>
